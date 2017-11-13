@@ -36,6 +36,9 @@ import net.ossrs.rtmp.ConnectCheckerRtmp;
 public class RtmpActivity extends AppCompatActivity
     implements Button.OnClickListener, ConnectCheckerRtmp, SurfaceHolder.Callback {
 
+//  private final static String LIVE_URL = "rtmp://192.168.0.14:1935/live/test";
+  private final static String RESOLUTION = "640X360";
+
   private Integer[] orientations = new Integer[] { 0, 90, 180, 270 };
 
   private RtmpCamera1 rtmpCamera1;
@@ -70,6 +73,7 @@ public class RtmpActivity extends AppCompatActivity
 
     etUrl = findViewById(R.id.et_rtp_url);
     etUrl.setHint(R.string.hint_rtmp);
+    etUrl.setText(LIVE_URL);
     bStartStop = findViewById(R.id.b_start_stop);
     bStartStop.setOnClickListener(this);
     bRecord = findViewById(R.id.b_record);
@@ -142,8 +146,8 @@ public class RtmpActivity extends AppCompatActivity
     etAudioBitrate =
         (EditText) navigationView.getMenu().findItem(R.id.et_audio_bitrate).getActionView();
     etSampleRate = (EditText) navigationView.getMenu().findItem(R.id.et_samplerate).getActionView();
-    etVideoBitrate.setText("2500");
-    etFps.setText("30");
+    etVideoBitrate.setText("100");
+    etFps.setText("24");
     etAudioBitrate.setText("128");
     etSampleRate.setText("44100");
     etWowzaUser = (EditText) navigationView.getMenu().findItem(R.id.et_wowza_user).getActionView();
@@ -220,8 +224,9 @@ public class RtmpActivity extends AppCompatActivity
       case R.id.b_start_stop:
         if (!rtmpCamera1.isStreaming()) {
           bStartStop.setText(getResources().getString(R.string.stop_button));
-          String resolution =
-              rtmpCamera1.getResolutions().get(spResolution.getSelectedItemPosition());
+//          String resolution =
+//              rtmpCamera1.getResolutions().get(spResolution.getSelectedItemPosition());
+          String resolution = RESOLUTION;
           String user = etWowzaUser.getText().toString();
           String password = etWowzaPassword.getText().toString();
           if (!user.isEmpty() && !password.isEmpty()) {
@@ -232,12 +237,13 @@ public class RtmpActivity extends AppCompatActivity
 
           if (rtmpCamera1.prepareVideo(width, height, Integer.parseInt(etFps.getText().toString()),
               Integer.parseInt(etVideoBitrate.getText().toString()) * 1024,
-              cbHardwareRotation.isChecked(), orientations[spOrientation.getSelectedItemPosition()])
-              && rtmpCamera1.prepareAudio(
-              Integer.parseInt(etAudioBitrate.getText().toString()) * 1024,
-              Integer.parseInt(etSampleRate.getText().toString()),
-              rgChannel.getCheckedRadioButtonId() == R.id.rb_stereo, cbEchoCanceler.isChecked(),
-              cbNoiseSuppressor.isChecked())) {
+              cbHardwareRotation.isChecked(), orientations[spOrientation.getSelectedItemPosition()])) {
+//              && rtmpCamera1.prepareAudio(
+//              Integer.parseInt(etAudioBitrate.getText().toString()) * 1024,
+//              Integer.parseInt(etSampleRate.getText().toString()),
+//              rgChannel.getCheckedRadioButtonId() == R.id.rb_stereo, cbEchoCanceler.isChecked(),
+//              cbNoiseSuppressor.isChecked())) {
+//            rtmpCamera1.disableAudio();
             rtmpCamera1.startStream(etUrl.getText().toString());
           } else {
             //If you see this all time when you start stream,

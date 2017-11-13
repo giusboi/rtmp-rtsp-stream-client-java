@@ -36,7 +36,7 @@ import net.ossrs.rtmp.ConnectCheckerRtmp;
 public class RtmpActivity extends AppCompatActivity
     implements Button.OnClickListener, ConnectCheckerRtmp, SurfaceHolder.Callback {
 
-//  private final static String LIVE_URL = "rtmp://192.168.0.14:1935/live/test";
+  private final static String LIVE_URL = "rtmp://192.168.0.14:1935/live/test";
   private final static String RESOLUTION = "640X360";
 
   private Integer[] orientations = new Integer[] { 0, 90, 180, 270 };
